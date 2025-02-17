@@ -13,13 +13,8 @@ from psychopy import visual,event,core,gui
 # 5. Feedback                     # Done
 # 6. Timeout                      # Done
 # 7. Add incongruent trials       # Done
-# 8. checkpoint                   #
+# 8. checkpoint                   # Done? It should be done.
 
-# Part2:
-# 9. Create a generate trails file
-# 10. Runtime variables
-# 11. Read in a trails file
-# 12. Write the data
 
 def make_incongruent(color, stimuli):
     other_color = stimuli.copy()
@@ -44,6 +39,7 @@ incorrect_word = visual.TextStim(win, text = "Incorrect", color = "black", pos =
 too_slow_word  = visual.TextStim(win, text = "Too slow", color = "black", pos = [0,0], height= 40)
 trial_types = ["incongruent","normal"]
 
+response_list = []
 while True:
     # incongruent part
     # cur_stim = random.choice(stimuli)
@@ -84,26 +80,31 @@ while True:
     # print(key_pressed)
     # print(key_pressed[0])
 
+    # print(timer.getTime() * 1000)
+    RTs.append(round(timer.getTime() * 1000))
 
     if not key_pressed:
         placeholder.draw()
         instruction.draw()
         too_slow_word.draw()
+        response = 'NA'
         win.flip()
         core.wait(1)
     elif key_pressed[0] == 'q':
         break
     elif key_pressed[0] == cur_stim[0]:
+        response = cur_stim[0]
         pass
     else:
         # show incorrect and 1s time delay if wrong
+        response = cur_stim[0]
         placeholder.draw()
         instruction.draw()
         incorrect_word.draw()
         win.flip()
         core.wait(1)
+    
+    response_list.append(response)
 
-    # print(timer.getTime() * 1000)
-    RTs.append(round(timer.getTime() * 1000))
-
+print(response_list)
 print(RTs)
